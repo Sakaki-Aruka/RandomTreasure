@@ -1,0 +1,7 @@
+name: RandomTreasure
+version: '${project.version}'
+main: randomtreasure.randomtreasure.RandomTreasure
+api-version: 1.19
+authors: [ SakakiAruka ]
+description: place chets, can get random items.
+website: https://github.com/Sakaki-Aruka
