@@ -1,5 +1,5 @@
 name: RandomTreasure
-version: '${project.version}'
+version: '1'
 main: randomtreasure.randomtreasure.RandomTreasure
 api-version: 1.19
 authors: [ SakakiAruka ]
