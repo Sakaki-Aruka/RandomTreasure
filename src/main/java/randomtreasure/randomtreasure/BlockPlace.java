@@ -16,7 +16,7 @@ public class BlockPlace {
     public void place(BlockPlaceEvent event){
         Player player = event.getPlayer();
         World world = player.getWorld();
-        Location location = player.getLocation();
+        Location location = event.getBlock().getLocation();
 
         if(player.getInventory().getItemInMainHand().getType()==Material.CHEST && player.getInventory().getItemInMainHand().containsEnchantment(Enchantment.MENDING)){
             event.setCancelled(true);
