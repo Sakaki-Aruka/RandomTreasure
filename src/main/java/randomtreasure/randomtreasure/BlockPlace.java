@@ -9,31 +9,30 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
-import java.util.Random;
 
 import static randomtreasure.randomtreasure.SettingsLoad.weightItem;
 
 public class BlockPlace {
     public void place(BlockPlaceEvent event){
         Player player = event.getPlayer();
+        World world = player.getWorld();
+        Location location = player.getLocation();
 
-        if(event.getBlock().getType()== Material.CHEST && player.getInventory().getItemInMainHand().getType()==Material.CHEST && player.getInventory().getItemInMainHand().containsEnchantment(Enchantment.MENDING)){
+        if(player.getInventory().getItemInMainHand().getType()==Material.CHEST && player.getInventory().getItemInMainHand().containsEnchantment(Enchantment.MENDING)){
             event.setCancelled(true);
-            Random random = new Random();
-            Double randomDouble = random.nextDouble();
-            Double weightTotal = 0.0;
-
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount()-1);
 
-            for(Map.Entry<Double, ItemStack> entry : weightItem.entrySet()){
-                if(entry.getKey() < randomDouble && randomDouble <= weightTotal){
-                    Location location = event.getBlock().getLocation();
+            double random = Math.random();
+            double total = 0.0;
+
+            for (Map.Entry<Double,ItemStack> entry : weightItem.entrySet()){
+                if(total <= random && random < total + entry.getKey()){
                     ItemStack itemStack = entry.getValue();
-                    World world = player.getWorld();
                     world.dropItemNaturally(location,itemStack);
                     return;
+                }else{
+                    total += entry.getKey();
                 }
-                weightTotal += entry.getKey();
             }
         }
     }

@@ -5,7 +5,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Map;
 
 import static randomtreasure.randomtreasure.SettingsLoad.weightItem;
 
@@ -37,11 +40,16 @@ public final class RandomTreasure extends JavaPlugin implements CommandExecutor 
                 return false;
             }
         }
-
-        reloadConfig();
         weightItem.clear();
-        this.load();
 
+        sender.sendMessage("§c[RandomTreasure]:ConfigFile reloading.");
+        reloadConfig();
+        this.load();
+        for(Map.Entry<Double, ItemStack> entry : weightItem.entrySet()){
+            sender.sendMessage("weight:"+entry.getKey()+"\nitem:"+entry.getValue());
+        }
+
+        sender.sendMessage("§a[RandomTreasure]:ConfigFile reload complete!");
         return true;
     }
 }

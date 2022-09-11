@@ -1,5 +1,6 @@
 package randomtreasure.randomtreasure;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -23,8 +24,10 @@ public class SettingsLoad {
     public static Map<Double, ItemStack> weightItem = new HashMap<>();
 
     public void configLoad(){
-        int loop = 0;
-        while (true){
+
+        int items =FC.getInt("items");
+        for (int loop = 0;loop < items; loop++){
+
             if(FC.contains("item"+loop)){
                 String path = "item"+loop+".";
 
@@ -33,6 +36,7 @@ public class SettingsLoad {
 
                 ItemStack itemStack = new ItemStack(material);
                 ItemMeta itemMeta = itemStack.getItemMeta();
+                ItemMeta copy = itemStack.getItemMeta();
                 itemMeta.setDisplayName(displayName);
 
                 if(FC.contains(path+"enchantments")){
@@ -47,7 +51,7 @@ public class SettingsLoad {
                         int ee2 = Integer.valueOf(e2.get(i));
                         boolean ee3 = Boolean.valueOf(e3.get(i));
 
-                        itemMeta.addEnchant(Enchantment.getByName(ee1),ee2,ee3);
+                        itemStack.addUnsafeEnchantment(Enchantment.getByName(ee1),ee2);
                     }
 
                 }
@@ -55,12 +59,15 @@ public class SettingsLoad {
                 if(FC.contains(path+"itemFlag")){
                     ArrayList<String> flags = new ArrayList<>(Arrays.asList(FC.getString(path+"itemFlag").split(",")));
                     for(String ii : flags){
-                        itemMeta.addItemFlags(ItemFlag.valueOf(ii));
+                        if(!(ii.equalsIgnoreCase("Nothing"))){
+                            itemMeta.addItemFlags(ItemFlag.valueOf(ii));
+                        }
+
                     }
                 }
 
                 if(FC.contains(path+"Lore")){
-                    ArrayList<String> lores = new ArrayList<>(Arrays.asList(FC.getString(path+"Lore").split(",")));
+                    ArrayList<String> lores = new ArrayList<>(Arrays.asList(FC.getString(path+"Lore").split("!&!")));
                     itemMeta.setLore(lores);
                 }
 
@@ -69,13 +76,15 @@ public class SettingsLoad {
                 }
 
                 double weight = FC.getDouble(path+"weight");
-                itemStack.setItemMeta(itemMeta);
+                if(!(itemMeta==copy)){
+                    itemStack.setItemMeta(itemMeta);
+                }
+
                 weightItem.put(weight,itemStack);
-
-
             }else{
-                return;
+                break;
             }
         }
+        return;
     }
 }

@@ -1,14 +1,15 @@
 # this file is a config file.
 
+items: 1
+
 item0:
   materialName: "STONE"
   displayName: "STONE"
 
   enchantments: "MENDING"
   enchantment_level: "1"
-  restriciton: "false"
+  restriction: "false"
 
-  itemFlag: "Nothing"
   weight: 0.50
 
   Lore: "this is a stone!&!this is a stone!&!this is a stone"
