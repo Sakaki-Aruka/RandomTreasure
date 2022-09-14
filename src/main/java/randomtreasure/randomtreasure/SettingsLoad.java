@@ -51,7 +51,8 @@ public class SettingsLoad {
                         int ee2 = Integer.valueOf(e2.get(i));
                         boolean ee3 = Boolean.valueOf(e3.get(i));
 
-                        itemStack.addUnsafeEnchantment(Enchantment.getByName(ee1),ee2);
+                        itemMeta.addEnchant(Enchantment.getByName(ee1),ee2,ee3);
+
                     }
 
                 }
